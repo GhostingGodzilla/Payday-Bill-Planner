@@ -27,12 +27,12 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 
   {
     printf "## %s - %s\n\n" "$timestamp" "$short_sha"
-    printf "- Branch: %s\n" "$branch"
-    printf "- Commit: %s\n" "$subject"
-    printf "- Author: %s\n" "$author"
-    printf "- Remote: %s (%s)\n" "$REMOTE_NAME" "$REMOTE_URL"
-    printf "- Remote ref: %s\n" "$remote_ref"
-    printf "- Files changed:\n"
+    printf -- "- Branch: %s\n" "$branch"
+    printf -- "- Commit: %s\n" "$subject"
+    printf -- "- Author: %s\n" "$author"
+    printf -- "- Remote: %s (%s)\n" "$REMOTE_NAME" "$REMOTE_URL"
+    printf -- "- Remote ref: %s\n" "$remote_ref"
+    printf -- "- Files changed:\n"
 
     if [ -n "$files" ]; then
       printf "%s\n" "$files" | while read -r file; do
