@@ -1,4 +1,5 @@
 const STORAGE_KEY = "payday-bill-planner-v1";
+const THEME_STORAGE_KEY = "payday-bill-planner-theme";
 const DEFAULT_STATE_TAX_RATE = 0.04;
 
 const FEDERAL_BRACKETS = {
@@ -122,11 +123,14 @@ const el = {
   totals: document.querySelector("#totals"),
   previewCount: document.querySelector("#preview-count"),
   emptyTemplate: document.querySelector("#empty-template")
+  ,
+  themeToggle: document.querySelector("#theme-toggle")
 };
 
 init();
 
 function init() {
+  hydrateTheme();
   hydrateFromStorage();
   bindEvents();
   reflectStateToInputs();
@@ -135,6 +139,13 @@ function init() {
 }
 
 function bindEvents() {
+  el.themeToggle.addEventListener("click", () => {
+    const current = document.body.dataset.theme || "light";
+    const next = current === "dark" ? "light" : "dark";
+    applyTheme(next);
+    localStorage.setItem(THEME_STORAGE_KEY, next);
+  });
+
   el.incomeForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -960,6 +971,24 @@ function resetBillEditState() {
   state.editingBillId = null;
   el.billSubmitBtn.textContent = "Add Bill";
   el.billCancelEdit.hidden = true;
+}
+
+function hydrateTheme() {
+  const saved = localStorage.getItem(THEME_STORAGE_KEY);
+  if (saved === "dark" || saved === "light") {
+    applyTheme(saved);
+    return;
+  }
+
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(prefersDark ? "dark" : "light");
+}
+
+function applyTheme(theme) {
+  document.body.dataset.theme = theme;
+  if (el.themeToggle) {
+    el.themeToggle.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+  }
 }
 
 function normalizeFrequency(value) {

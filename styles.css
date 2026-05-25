@@ -67,6 +67,28 @@ body {
   backdrop-filter: blur(6px);
 }
 
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle {
+  border: 1px solid #bfd0e2;
+  background: #f8fbff;
+  color: #1f4f68;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background: #eaf4ff;
+}
+
 .kicker {
   margin: 0 0 8px;
   color: var(--accent-strong);
@@ -504,4 +526,87 @@ tbody tr:hover {
   .grid-form {
     grid-template-columns: 1fr;
   }
+
+  .hero-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+body[data-theme="dark"] {
+  --ink-900: #e5edf7;
+  --ink-700: #b4c3d6;
+  --ink-500: #8ca0b8;
+  --white: #0e1624;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.35);
+  background:
+    radial-gradient(circle at 8% -2%, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0) 30%),
+    radial-gradient(circle at 92% 0%, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 25%),
+    linear-gradient(175deg, #0b1220 0%, #0f1b2f 45%, #0a1422 100%);
+}
+
+body[data-theme="dark"] .backdrop {
+  opacity: 0.35;
+}
+
+body[data-theme="dark"] .hero {
+  border-color: rgba(123, 163, 203, 0.24);
+  background:
+    linear-gradient(120deg, rgba(17, 28, 46, 0.95), rgba(17, 35, 38, 0.95)),
+    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0));
+}
+
+body[data-theme="dark"] .theme-toggle {
+  border-color: #36506d;
+  background: #13263b;
+  color: #cae6ff;
+}
+
+body[data-theme="dark"] .theme-toggle:hover {
+  background: #1a3551;
+}
+
+body[data-theme="dark"] .panel {
+  background: linear-gradient(180deg, rgba(16, 25, 39, 0.97), rgba(15, 29, 46, 0.97));
+  border-color: rgba(131, 161, 195, 0.3);
+}
+
+body[data-theme="dark"] input,
+body[data-theme="dark"] select {
+  background: #102031;
+  border-color: #334a63;
+  color: #e6f2ff;
+}
+
+body[data-theme="dark"] .table-wrap,
+body[data-theme="dark"] .income-rollup,
+body[data-theme="dark"] .estimator-block,
+body[data-theme="dark"] .empty-state,
+body[data-theme="dark"] .period-body,
+body[data-theme="dark"] .total-card {
+  background: #0f1e31;
+  border-color: #30465f;
+}
+
+body[data-theme="dark"] th {
+  background: #13253b;
+}
+
+body[data-theme="dark"] tbody tr:hover {
+  background: #13263d;
+}
+
+body[data-theme="dark"] .period-header {
+  background: linear-gradient(135deg, #122944, #12342f);
+}
+
+body[data-theme="dark"] .badge {
+  background: #183557;
+  color: #b7d8ff;
+}
+
+body[data-theme="dark"] .paid-badge {
+  background: #1a4034;
+  color: #c9ffe9;
 }

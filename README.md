@@ -24,3 +24,15 @@ This is a simple browser app that helps you plan bills around your payday schedu
 - Bills are treated as monthly recurring by due day (1 to 31).
 - If a month has fewer days (for example 30 days or February), a day 31 bill is moved to that month's last day.
 - Estimator values are rough projections and not tax advice.
+
+## Push Summaries
+
+- A `post-push` git hook is included in `.githooks/post-push`.
+- After each successful `git push`, it appends a short summary to `PUSH_SUMMARY.md`.
+- Summary includes timestamp, branch, commit subject, author, remote ref, and changed files.
+
+If needed on another machine, run:
+
+```bash
+git config core.hooksPath .githooks
+```

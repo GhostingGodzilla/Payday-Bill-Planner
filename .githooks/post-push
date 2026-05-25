@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+
+# Appends a short markdown summary after each successful push.
+
+SUMMARY_FILE="PUSH_SUMMARY.md"
+
+if [ ! -f "$SUMMARY_FILE" ]; then
+  printf "# Push Summary Log\n\nThis file is automatically updated by the repo post-push hook.\n\n" > "$SUMMARY_FILE"
+fi
+
+timestamp=$(date -u +"%Y-%m-%d %H:%M:%SZ")
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # Skip deleted refs
+  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+    continue
+  fi
+
+  short_sha=$(printf "%s" "$local_sha" | cut -c1-7)
+  subject=$(git show -s --format="%s" "$local_sha" 2>/dev/null)
+  author=$(git show -s --format="%an" "$local_sha" 2>/dev/null)
+
+  files=$(git diff-tree --no-commit-id --name-only -r "$local_sha" 2>/dev/null)
+
+  {
+    printf "## %s - %s\n\n" "$timestamp" "$short_sha"
+    printf "- Branch: %s\n" "$branch"
+    printf "- Commit: %s\n" "$subject"
+    printf "- Author: %s\n" "$author"
+    printf "- Remote ref: %s\n" "$remote_ref"
+    printf "- Files changed:\n"
+
+    if [ -n "$files" ]; then
+      printf "%s\n" "$files" | while read -r file; do
+        printf "  - %s\n" "$file"
+      done
+    else
+      printf "  - (No file list available)\n"
+    fi
+
+    printf "\n"
+  } >> "$SUMMARY_FILE"
+done
