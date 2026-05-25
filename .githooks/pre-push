@@ -1,11 +1,14 @@
 #!/usr/bin/env sh
 
-# Appends a short markdown summary after each successful push.
+# Appends a short markdown summary before each push.
+# Hook args: $1 = remote name, $2 = remote URL
 
 SUMMARY_FILE="PUSH_SUMMARY.md"
+REMOTE_NAME="$1"
+REMOTE_URL="$2"
 
 if [ ! -f "$SUMMARY_FILE" ]; then
-  printf "# Push Summary Log\n\nThis file is automatically updated by the repo post-push hook.\n\n" > "$SUMMARY_FILE"
+  printf "# Push Summary Log\n\nThis file is automatically updated by the repo pre-push hook.\n\n" > "$SUMMARY_FILE"
 fi
 
 timestamp=$(date -u +"%Y-%m-%d %H:%M:%SZ")
@@ -20,7 +23,6 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   short_sha=$(printf "%s" "$local_sha" | cut -c1-7)
   subject=$(git show -s --format="%s" "$local_sha" 2>/dev/null)
   author=$(git show -s --format="%an" "$local_sha" 2>/dev/null)
-
   files=$(git diff-tree --no-commit-id --name-only -r "$local_sha" 2>/dev/null)
 
   {
@@ -28,6 +30,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
     printf "- Branch: %s\n" "$branch"
     printf "- Commit: %s\n" "$subject"
     printf "- Author: %s\n" "$author"
+    printf "- Remote: %s (%s)\n" "$REMOTE_NAME" "$REMOTE_URL"
     printf "- Remote ref: %s\n" "$remote_ref"
     printf "- Files changed:\n"
 

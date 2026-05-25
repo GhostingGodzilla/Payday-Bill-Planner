@@ -27,8 +27,8 @@ This is a simple browser app that helps you plan bills around your payday schedu
 
 ## Push Summaries
 
-- A `post-push` git hook is included in `.githooks/post-push`.
-- After each successful `git push`, it appends a short summary to `PUSH_SUMMARY.md`.
+- A `pre-push` git hook is included in `.githooks/pre-push`.
+- Before each `git push`, it appends a short summary to `PUSH_SUMMARY.md`.
 - Summary includes timestamp, branch, commit subject, author, remote ref, and changed files.
 
 If needed on another machine, run:
